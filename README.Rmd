@@ -26,7 +26,7 @@ The goal of Photopal is to generate palettes from photos.
 ## Installation
 
 You can install the development version of Photopal from [GitHub](https://github.com/) with:
-
+ 
 ``` r
 # install.packages("devtools")
 devtools::install_github("Hiiiua/Photopal")
@@ -36,7 +36,7 @@ devtools::install_github("Hiiiua/Photopal")
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+``` r
 library(Photopal)
 ## basic example code
 ```

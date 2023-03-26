@@ -1,0 +1,22 @@
+Package: Photopal
+Title: This package generates palettes from images
+Version: 0.0.0.1000
+Authors@R: 
+    c(person("Tyler",
+             email = "wiederich2@huskers.unl.edu",
+             role = c("aut"),
+             comment = c(ORCID = "YOUR-ORCID-ID")),
+      person("Muxin",
+             email = "mhua2@huskers.unl.edu",
+             role = c("aut", "cre"),
+             comment = c(ORCID = "YOUR-ORCID-ID")),
+      person("Charlie",
+             email = "bonk.charlie@huskers.unl.edu",
+             role = c("aut"),
+             comment = c(ORCID = "YOUR-ORCID-ID"))
+           )
+Description: This package generates palettes from images.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

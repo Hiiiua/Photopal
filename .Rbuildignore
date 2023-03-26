@@ -1,0 +1,10 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^clusterTest$
+^initialScripts\.R$
+^Rplots\.pdf$
+^README\.md
+^docs$
+^\.github$
+^README\.Rmd$

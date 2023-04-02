@@ -6,7 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/Hiiiua/Photopal/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Hiiiua/Photopal/actions/workflows/R-CMD-check.yaml)
-
+[![Codecov test
+coverage](https://codecov.io/gh/Hiiiua/Photopal/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Hiiiua/Photopal?branch=main)
 <!-- badges: end -->
 
 The goal of Photopal is to generate palettes from photos.
@@ -42,6 +43,12 @@ library(Photopal)
     -   <https://rdrr.io/cran/imager/man/imager.colourspaces.html>  
         Look into CIELab space, probably able to use one of these
         converting functions from `imager`
+    -   Relative perceptual differences between any two colors
+        in *L\*a\*b\** can be approximated by treating each color as a
+        point in a three-dimensional space (with three
+        components: *L\**, *a\**, *b\**) and taking the [Euclidean
+        distance](https://en.wikipedia.org/wiki/Euclidean_distance "Euclidean distance")between
+        them.[\[10\]](https://en.wikipedia.org/wiki/CIELAB_color_space#cite_note-Jain89-10)
 
 -   palette_continuous()
 

@@ -58,18 +58,68 @@
 <div class="section level1">
 <div class="page-header"><h1 id="photopal">Photopal<a class="anchor" aria-label="anchor" href="#photopal"></a>
 </h1></div>
-<p>A package generating palettes from photoes</p>
+<!-- badges: start -->
+
+<!-- badges: end -->
+<p>The goal of Photopal is to generate palettes from photos.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of Photopal from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Hiiiua/Photopal"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>This is a basic example which shows you how to solve a common problem:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">Photopal</span><span class="op">)</span></span>
+<span><span class="co">## basic example code</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
+<p><a href="https://hiiiua.github.io/Photopal/" class="external-link">Photopal</a></p>
 <div class="section level3">
 <h3 id="brainstorm-ideas">Brainstorm ideas<a class="anchor" aria-label="anchor" href="#brainstorm-ideas"></a>
 </h3>
 <ul>
-<li>palette_discrete()</li>
-<li>palette_continuous()</li>
-<li>palette_convert_cb(): convert to color-blind safe palette</li>
-<li>use the original photo and overlay a 3D heatmap that shows which areas of the image has the highest intensities of colors from the generated palette</li>
-<li>interaction: showing or saving the hex color code with pointing/clicking (maybe Shiny/plotly)</li>
-<li>palette optimizer function: given a palette, we make it better</li>
+<li>
+<p>palette_discrete()</p>
+<ul>
+<li>threshold for distance.</li>
+<li>
+<a href="https://rdrr.io/cran/imager/man/imager.colourspaces.html" class="external-link uri">https://rdrr.io/cran/imager/man/imager.colourspaces.html</a><br>
+Look into CIELab space, probably able to use one of these converting functions from <code>imager</code>
+</li>
 </ul>
+</li>
+<li>
+<p>palette_continuous()</p>
+<ul>
+<li>Look into color theories to see if we can extend the color range.<br>
+</li>
+<li>Warning of not recommending continuous color palette</li>
+</ul>
+</li>
+<li>
+<p>palette_convert_cb(): convert to color-blind safe palette</p>
+<ul>
+<li>An argument to choose the color blindness kind.</li>
+</ul>
+</li>
+<li>
+<p>use the original photo and overlay a 3D heatmap that shows which areas of the image has the highest intensities of colors from the generated palette</p>
+<ul>
+<li>Show intensity of one of the colors from generated palette.</li>
+</ul>
+</li>
+<li><p>interaction: showing or saving the hex color code with pointing/clicking (maybe Shiny/plotly)</p></li>
+<li><p>palette optimizer function: given a palette, we make it better</p></li>
+</ul>
+</div>
 </div>
 </div>
   </div>
@@ -83,6 +133,14 @@
 </ul>
 </div>
 
+<div class="community">
+<h2 data-toc-skip>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
+<li><a href="SUPPORT.html">Getting help</a></li>
+</ul>
+</div>
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
@@ -100,7 +158,12 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/Hiiiua/Photopal/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/Hiiiua/Photopal/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
 
   </div>
 </div>

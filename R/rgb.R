@@ -8,9 +8,7 @@
 #' im = image2rgb()
 #' head(im)
 image2rgb <- function(loc = 'stadium.rda'){
-  stadium = paste(strsplit(getwd(), 'Photopal')[[1]][1], 
-                  'Photopal/data/stadium.rda', sep = '')
-  load(stadium)
+  stadium = Photopal::stadium
   if(loc != 'stadium.rda'){
     e = try(imager::load.image(loc), silent = T)
     if("try-error" %in% class(e) ){

@@ -4,14 +4,15 @@
 \alias{image2rgb}
 \title{A function read in an image from url, locally or default build-in image.}
 \usage{
-image2rgb(
-  url = paste("https://topbrunchspots.com", "/wp-content/uploads/2022/05/AF1QipM",
-    "-ql78yz46DGynt2tb1l7i8gK8zOAfN8dCQqiP", "w1600-h1000-k-no.jpeg", sep = "")
-)
+image2rgb(loc = "stadium.rda")
 }
 \arguments{
-\item{url}{A string.}
+\item{loc}{A string. A valid url or file for the image}
 }
 \description{
 A function read in an image from url, locally or default build-in image.
+}
+\examples{
+im = image2rgb()
+head(im)
 }

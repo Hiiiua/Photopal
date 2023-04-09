@@ -4,7 +4,7 @@
 \alias{contrast}
 \title{Determine the difference of two colors}
 \usage{
-contrast(c1, c2, maxColorValue = 255)
+contrast(c1, c2, maxColorValue = 255, plot = F)
 }
 \arguments{
 \item{c1}{A numeric list, rgb values of color1.}
@@ -12,6 +12,8 @@ contrast(c1, c2, maxColorValue = 255)
 \item{c2}{A numeric list, rgb values of color2.}
 
 \item{maxColorValue}{Maximum color value, mostly 1 or 255}
+
+\item{plot}{T/F. Default not to display the colors.}
 }
 \description{
 This function returns the colors difference.

@@ -119,7 +119,7 @@ is_sufficient <- function(c1, c2, maxColorValue=255, threshold=35, plot = T){
 #' @param num.color An integer. How many colors needed in the palette
 #' @param df.rgb A data.frame. This dataframe should have all pixels' rgb information of an image
 #' @param threshold A number. To determine the minimum accepted color difference in the palette
-#' 
+#' @param plot T/F. Default to display the colors.
 #' @param proceed A testing parameter
 #' 
 #' @importFrom graphics barplot
@@ -127,7 +127,6 @@ is_sufficient <- function(c1, c2, maxColorValue=255, threshold=35, plot = T){
 #' @importFrom grDevices dev.new
 #' @importFrom utils menu
 #' @importFrom cli cli_warn cli_inform
-#' @param plot T/F. Default to display the colors.
 #' @export
 #' 
 #' @examples
@@ -180,6 +179,93 @@ palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proc
   return(palColors)
 }
 
+# https://ixora.io/projects/colorblindness/color-blindness-simulation-research/
 
+#' different color-blind simulations
+#' 
+#' This function takes in an image, transforming it to simulate color-blind vision
+#' 
+#' @param loc A string. A location of an image
+#' @param mode A string. Specify color blind type
+#' @param compare T/F. True for displaying both normal and color-blind vision to compare.
+#' 
+#' @importFrom cli cli_warn
+#' @importFrom imager load.image cimg
+#' @importFrom graphics plot par
+#' @importFrom Matrix solve
+#'
+#' @export
+#' 
+#' @examples 
+#' color_blindness_simulation()
 
+color_blindness_simulation <- function(loc = 'stadium.rda', mode = 'red', compare = T){
+  # red-blind = protanopia
+  if(mode == 'red'){ 
+    s = matrix(c(0, 1.05118294, -0.05116099,
+                 0, 1, 0,
+                 0, 0, 1), byrow = T, ncol = 3)
+  }
+  
+  # green-blind = deuteranopia
+  else if(mode == 'green'){
+    s = matrix(c(1, 0, 0,
+                 0.9513092, 0, 0.04866992,
+                 0, 0, 1), byrow = T, ncol = 3)
+  }
+
+  # blue-blind = triamopia
+  else if(mode == 'blue'){
+  s = matrix(c(1, 0, 0,
+               0, 1, 0,
+               -0.86744736, 1.86727089, 0), byrow = T,  ncol = 3)
+  }
+  else{
+    cli::cli_warn("Wrong color-blind mode")
+    stop()
+  }
+  
+  # transfer matrix from linear rgb [0,1] to LMS
+  t = matrix(c(0.31399022, 0.15537241, 0.01775239,
+               0.63951294, 0.75789446, 0.10944209,
+               0.04649755, 0.08670142, 0.87256922),  nrow = 3) 
+  ti = Matrix::solve(t)
+  
+  # simulation matrix, missing corresponding cones
+  t_sim = ti %*% s %*% t # transform matrix from normal rgb to color-blind rgb
+  
+  # load data
+  stadium = Photopal::stadium
+  if(loc != 'stadium.rda'){
+    e = try(imager::load.image(loc), silent = T)
+    if("try-error" %in% class(e) ){
+      stop("Not a valid url or location, will proceed with default image.")
+    }
+    else{
+      stadium = imager::load.image(loc)
+    }
+  }
+  
+  # convert 4d to 2d for transforming
+  im_rgb = stadium[,,,]
+  row = dim(im_rgb)[1]
+  col = dim(im_rgb)[2]
+  im_rgb.flat = matrix(im_rgb, prod(row, col), dim(im_rgb)[3])
+  im_rgb.2d = t(im_rgb.flat) # transpose to have columns as rgb
+  # transform
+  protan.2d = t(t_sim %*% im_rgb.2d) # transform back with transpose
+  # back to image object for plotting
+  protan.3d = array(protan.2d, c(row, col, 3))
+  im_protan = imager::as.cimg(protan.3d, c(row, col, 3)) # back to image for plot
+  
+  if(compare == T){
+    graphics::par(mfrow=c(1,2)) 
+    i1 = graphics::plot(im_protan, axes = F)
+    i2 = graphics::plot(stadium, axes = F)}
+  else(
+    graphics::plot(im_protan, axes = F)
+  )
+  
+  return(im_protan)
+}
 

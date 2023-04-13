@@ -27,7 +27,8 @@ Imports:
     graphics,
     stats,
     cli,
-    utils
+    utils,
+    Matrix
 Suggests: 
     covr,
     knitr,

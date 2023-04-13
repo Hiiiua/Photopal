@@ -25,7 +25,9 @@ Imports:
     farver,
     grDevices,
     graphics,
-    stats
+    stats,
+    cli,
+    utils
 Suggests: 
     covr,
     knitr,

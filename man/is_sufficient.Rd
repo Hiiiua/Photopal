@@ -4,7 +4,7 @@
 \alias{is_sufficient}
 \title{Tell if the difference is sufficient for human eye to perceive}
 \usage{
-is_sufficient(c1, c2, maxColorValue = 255, threshold = 35)
+is_sufficient(c1, c2, maxColorValue = 255, threshold = 35, plot = T)
 }
 \arguments{
 \item{c1}{A numeric list, rgb values of color1.}
@@ -14,6 +14,8 @@ is_sufficient(c1, c2, maxColorValue = 255, threshold = 35)
 \item{maxColorValue}{Maximum color value, mostly 1 or 255}
 
 \item{threshold}{A number, threshold for differentiating two colors in delta e.}
+
+\item{plot}{T/F. Default to display the colors.}
 }
 \description{
 This function returns whether the colors difference is sufficient for human eye

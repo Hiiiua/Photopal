@@ -2,9 +2,9 @@
 % Please edit documentation in R/rgb.R
 \name{palette_create}
 \alias{palette_create}
-\title{Palette creating function}
+\title{A silent stop helper function}
 \usage{
-palette_create(num.color = 5, df.rgb, threshold = 25)
+palette_create(num.color = 5, df.rgb, threshold = 25, plot = T, proceed = NA)
 }
 \arguments{
 \item{num.color}{An integer. How many colors needed in the palette}
@@ -12,8 +12,16 @@ palette_create(num.color = 5, df.rgb, threshold = 25)
 \item{df.rgb}{A data.frame. This dataframe should have all pixels' rgb information of an image}
 
 \item{threshold}{A number. To determine the minimum accepted color difference in the palette}
+
+\item{plot}{T/F. Default to display the colors.}
+
+\item{proceed}{A testing parameter}
 }
 \description{
+This function mutes the Error when calling stop
+Palette creating function
+}
+\details{
 This function creates a palette from an image. The image need to be input in
 dataframe of pixels in rgb. If the extracted colors are sufficient for differentiating
 it automatically generates the pallete, but if the color contrast is less

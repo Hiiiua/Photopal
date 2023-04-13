@@ -82,6 +82,7 @@ contrast <- function(c1, c2, maxColorValue = 255, plot = F){
 #' @param c2 A numeric list, rgb values of color2.
 #' @param maxColorValue Maximum color value, mostly 1 or 255
 #' @param threshold A number, threshold for differentiating two colors in delta e.
+#' @param plot T/F. Default to display the colors.
 #' 
 #' @importFrom farver convert_colour
 #' @importFrom graphics image
@@ -91,19 +92,19 @@ contrast <- function(c1, c2, maxColorValue = 255, plot = F){
 #' 
 #' @examples 
 #' is_sufficient(c(70, 50, 50), c(0,0,0))
-is_sufficient <- function(c1, c2, maxColorValue=255, threshold=35){
-  return(contrast(c1, c2, maxColorValue = maxColorValue) >= threshold)
+is_sufficient <- function(c1, c2, maxColorValue=255, threshold=35, plot = T){
+  return(contrast(c1, c2, maxColorValue = maxColorValue, plot = plot) >= threshold)
 }
 
 
 #' A silent stop helper function
 #' 
 #' This function mutes the Error when calling stop
-stop_quietly <- function() {
-  opt <- options(show.error.messages = FALSE)
-  on.exit(options(opt))
-  stop()
-}
+# stop_quietly <- function() {
+#   opt <- options(show.error.messages = FALSE)
+#   on.exit(options(opt))
+#   stop()
+# }
 
 
 
@@ -115,20 +116,24 @@ stop_quietly <- function() {
 #'it automatically generates the pallete, but if the color contrast is less
 #'than differentiating threshold, it will throw warning before proceeding.
 #'
-#'@param num.color An integer. How many colors needed in the palette
-#'@param df.rgb A data.frame. This dataframe should have all pixels' rgb information of an image
-#'@param threshold A number. To determine the minimum accepted color difference in the palette
-#'
-#'@importFrom graphics barplot
-#'@importFrom stats kmeans
-#'@importFrom grDevices dev.new
-#'
-#'@export
-#'
-#'@examples
+#' @param num.color An integer. How many colors needed in the palette
+#' @param df.rgb A data.frame. This dataframe should have all pixels' rgb information of an image
+#' @param threshold A number. To determine the minimum accepted color difference in the palette
+#' 
+#' @param proceed A testing parameter
+#' 
+#' @importFrom graphics barplot
+#' @importFrom stats kmeans
+#' @importFrom grDevices dev.new
+#' @importFrom utils menu
+#' @importFrom cli cli_warn cli_inform
+#' @param plot T/F. Default to display the colors.
+#' @export
+#' 
+#' @examples
 #'df.rgb = image2rgb()
 #'palette_create(5, df.rgb, 25)
-palette_create <- function(num.color = 5, df.rgb, threshold = 25){
+palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proceed = NA){
   clust.colors <- stats::kmeans(df.rgb[,c('red', 'green', 'blue')], centers = num.color)
   centers <- clust.colors$centers
   cluster <- clust.colors$cluster
@@ -141,35 +146,40 @@ palette_create <- function(num.color = 5, df.rgb, threshold = 25){
     c2_idx = dist[i, 2]
     c1 = centers[c1_idx,]
     c2 = centers[c2_idx,]
-    dist[i, 3] = contrast(c1, c2, 1)
-    dist[i, 4] = is_sufficient(c1, c2, maxColorValue = 1, threshold = 35)
+    dist[i, 3] = contrast(c1, c2, 1, plot = F)
+    dist[i, 4] = is_sufficient(c1, c2, maxColorValue = 1, 
+                               threshold = threshold, plot = F)
   }
   min_idx = sort(dist[,3], index.return=T)$ix[num.color+1]
   min_dist = dist[min_idx, 3]
   
   # Raise Warning when there is color contrast less than threshold
   if(min_dist < threshold){
-    options(warn = 1)
-    warning("The colors may be hard to differentiate, do you want to proceed?
-            \n1: Yes, proceed no matter what \n2: No, I want to start over")
+    cli::cli_warn("The colors may be hard to differentiate, do you want to proceed?")
+    if (is.na(proceed)){
+    proceed = utils::menu(c("Yes, proceed anyway", "No, I want to start over"))}
     
-    proceed = readline(prompt = "Enter any number : ")
+    # options(warn = 1)
+    # warning("The colors may be hard to differentiate, do you want to proceed?
+    #         \n1: Yes, proceed no matter what \n2: No, I want to start over")
+    # proceed = readline(prompt = "Enter any number : ")
+    
     if(proceed == 2){
-      print('Please start over.')
-      stop_quietly()
-      }
-    if((proceed != 1) & (proceed != 2)){
-      print('Wrong input, please start over')
-      stop_quietly()
+      cli::cli_inform('Please start over.')
+      stop()
     }
   }
   
   # creating palette
   palColors <- mapply(rgb, centers[,'red'], centers[,'green'], centers[,'blue'])
-  dev.new(width=5, height=4)
-  graphics::barplot(table(palColors), col = palColors, space=0, xlab = "",
-                    names.arg = palColors, cex.names = 0.7, axes = F)
+  if(plot == T){
+    dev.new(width=5, height=4)
+    graphics::barplot(table(palColors), col = palColors, space=0, xlab = "",
+                      names.arg = palColors, cex.names = 0.7, axes = F)
+  }
   return(palColors)
 }
+
+
 
 

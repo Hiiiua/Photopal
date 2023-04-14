@@ -84,28 +84,43 @@ showcaseApp <- function(...){
     #Data inputted from user
     appData <- reactiveValues(
       userPhoto = NULL
-    )
+    )#end
     
     
     
-    
-    observeEvent(input$userPic, { #Assign uploaded pic
+    #Assign uploaded pic to reactive values
+    observeEvent(input$userPic, { 
       appData$userPhoto <- input$userPic
     })#end
     
     
-    output$clearUserPic <- renderUI({ #shows button to clear uploaded file only if a file is present
+    
+    
+    #Shows button to clear uploaded file only if a file is present
+    output$clearUserPic <- renderUI({ 
       if(!is.null(appData$userPhoto)){
         list(actionButton('clearPic', 'Clear uploaded image'),
              p(' '))
       }
-    })
+    })#end
     
     
-    observeEvent(input$clearPic, { #reset file and data
+    
+    
+    #Reset file and data
+    observeEvent(input$clearPic, { 
       reset('userPic')
       appData$userPhoto <- NULL
     })
+    observeEvent(input$useDefault, { 
+      reset('userPic')
+      appData$userPhoto <- NULL
+    })#end
+    
+    
+  
+    
+    
     
     
     
@@ -113,6 +128,7 @@ showcaseApp <- function(...){
   
   
   shinyApp(ui, server) #run app
+  
   
 } #end function
 

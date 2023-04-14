@@ -3,7 +3,7 @@ Title: This package generates palettes from images
 Version: 0.0.0.1000
 Authors@R: 
     c(person("Tyler",
-             email = "wiederich2@huskers.unl.edu",
+             email = "twiederich2@huskers.unl.edu",
              role = c("aut"),
              comment = c(ORCID = "YOUR-ORCID-ID")),
       person("Muxin",
@@ -26,6 +26,9 @@ Imports:
     grDevices,
     graphics,
     stats,
+    rgl,
+    shiny,
+    shinythemes,
     cli,
     utils,
     Matrix

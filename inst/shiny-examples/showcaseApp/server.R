@@ -4,6 +4,7 @@ library(shinyjs)
 library(shinythemes)
 library(imager)
 
+
 server <- function(input, output, session){
   
   
@@ -56,4 +57,4 @@ server <- function(input, output, session){
 } #end server
 
 
-shinyApp(ui, server) #run app
+

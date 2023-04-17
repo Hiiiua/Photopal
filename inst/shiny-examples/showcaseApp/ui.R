@@ -9,6 +9,7 @@ library(shinyjs)
 library(shinythemes)
 library(imager)
 
+
 #Color palette page
 createPalettePage <- fluidPage(
   useShinyjs(),
@@ -61,3 +62,4 @@ ui <- navbarPage("Photopal", theme = shinytheme('flatly'),
                  tabPanel("Colorblind", colorblindPage),
                  tabPanel("Image color analysis", colorAnalysisPage)
 )
+

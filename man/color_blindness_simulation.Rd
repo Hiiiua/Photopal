@@ -4,7 +4,12 @@
 \alias{color_blindness_simulation}
 \title{different color-blind simulations}
 \usage{
-color_blindness_simulation(loc = "stadium.rda", mode = "red", compare = T)
+color_blindness_simulation(
+  loc = "stadium.rda",
+  mode = "red",
+  compare = T,
+  plot = T
+)
 }
 \arguments{
 \item{loc}{A string. A location of an image}
@@ -12,6 +17,8 @@ color_blindness_simulation(loc = "stadium.rda", mode = "red", compare = T)
 \item{mode}{A string. Specify color blind type}
 
 \item{compare}{T/F. True for displaying both normal and color-blind vision to compare.}
+
+\item{plot}{T/F. Default to display the colors.}
 }
 \description{
 This function takes in an image, transforming it to simulate color-blind vision

@@ -28,7 +28,17 @@ image2rgb <- function(loc = 'stadium.rda'){
   return(rgb_df)
 }
 
-
+#' function converts 4d image data to dataframe
+#' 
+#' @param cimg An 4d image tensor
+#' @export
+#' 
+imgdf2df <- function(cimg){
+  df.rgb = data.frame(red = as.vector(cimg[,,,1]),
+                      green = as.vector(cimg[,,,2]),
+                      blue = as.vector(cimg[,,,3]))
+  return(df.rgb)
+}
 
 #' Determine the difference of two colors
 #' 
@@ -132,6 +142,7 @@ is_sufficient <- function(c1, c2, maxColorValue=255, threshold=35, plot = T){
 #' @examples
 #'df.rgb = image2rgb()
 #'palette_create(5, df.rgb, 25)
+
 palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proceed = NA){
   clust.colors <- stats::kmeans(df.rgb[,c('red', 'green', 'blue')], centers = num.color)
   centers <- clust.colors$centers
@@ -180,7 +191,6 @@ palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proc
 }
 
 # https://ixora.io/projects/colorblindness/color-blindness-simulation-research/
-
 #' different color-blind simulations
 #' 
 #' This function takes in an image, transforming it to simulate color-blind vision
@@ -193,13 +203,14 @@ palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proc
 #' @importFrom imager load.image cimg
 #' @importFrom graphics plot par
 #' @importFrom Matrix solve
-#'
+#' @param plot T/F. Default to display the colors.
+#' 
 #' @export
 #' 
 #' @examples 
 #' color_blindness_simulation()
 
-color_blindness_simulation <- function(loc = 'stadium.rda', mode = 'red', compare = T){
+color_blindness_simulation <- function(loc = 'stadium.rda', mode = 'red', compare = T, plot =T){
   # red-blind = protanopia
   if(mode == 'red'){ 
     s = matrix(c(0, 1.05118294, -0.05116099,
@@ -258,14 +269,35 @@ color_blindness_simulation <- function(loc = 'stadium.rda', mode = 'red', compar
   protan.3d = array(protan.2d, c(row, col, 3))
   im_protan = imager::as.cimg(protan.3d, c(row, col, 3)) # back to image for plot
   
-  if(compare == T){
-    graphics::par(mfrow=c(1,2)) 
-    i1 = graphics::plot(im_protan, axes = F)
-    i2 = graphics::plot(stadium, axes = F)}
-  else(
-    graphics::plot(im_protan, axes = F)
-  )
+  if(plot == T){
+    if(compare == T){
+      graphics::par(mfrow=c(1,2)) 
+      i1 = graphics::plot(im_protan, axes = F)
+      i2 = graphics::plot(stadium, axes = F)}
+    else(
+      graphics::plot(im_protan, axes = F)
+    )}
   
   return(im_protan)
 }
 
+
+
+
+#' create color palette from color-blind simullation images
+#'
+#' @param loc A string.
+#' @param mode A string.
+#' @param threshold A number.
+#' @param df.rgb A dataframe.
+#' @param num.color An integer.
+#' @param plot T/F.
+#' @export
+#' 
+color_blindness_palette <- function(loc = 'stadium.rda', 
+                                    mode = 'red', num.color = 5,
+                                    df.rgb, threshold = 25, plot = T){
+  simulate = Photopal::color_blindness_simulation(loc = loc, mode = mode, compare = F, plot = F)
+  df.rgb = Photopal::imgdf2df(simulate)
+  Photopal::palette_create(5, df.rgb, 35, plot = T)
+}

@@ -1,8 +1,3 @@
-# @import shiny
-# @import rgl
-# @import shinyjs
-# @import shinythemes
-# @import imager
 library(shiny)
 library(rgl)
 library(shinyjs)

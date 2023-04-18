@@ -20,6 +20,9 @@ color_blindness_simulation(
 
 \item{plot}{T/F. Default to display the colors.}
 }
+\value{
+cimg df. simulated cimg.
+}
 \description{
 This function takes in an image, transforming it to simulate color-blind vision
 }

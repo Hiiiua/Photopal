@@ -15,6 +15,9 @@ contrast(c1, c2, maxColorValue = 255, plot = F)
 
 \item{plot}{T/F. Default not to display the colors.}
 }
+\value{
+A number. Delta e distance of two colors.
+}
 \description{
 This function returns the colors difference.
 Passing in two sets of rgb values of two colors, gets returned

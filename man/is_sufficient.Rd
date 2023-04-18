@@ -17,6 +17,9 @@ is_sufficient(c1, c2, maxColorValue = 255, threshold = 35, plot = T)
 
 \item{plot}{T/F. Default to display the colors.}
 }
+\value{
+T/F. If the color contrast of the two colors are sufficient.
+}
 \description{
 This function returns whether the colors difference is sufficient for human eye
 to detect or not.

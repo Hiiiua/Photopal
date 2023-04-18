@@ -9,6 +9,9 @@ image2rgb(loc = "stadium.rda")
 \arguments{
 \item{loc}{A string. A valid url or file for the image}
 }
+\value{
+A 2d dataframe with columns rgb.
+}
 \description{
 A function read in an image from url, locally or default build-in image.
 }

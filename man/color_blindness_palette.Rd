@@ -8,24 +8,28 @@ color_blindness_palette(
   loc = "stadium.rda",
   mode = "red",
   num.color = 5,
-  df.rgb,
   threshold = 25,
-  plot = T
+  plot_palette = T,
+  plot_images = F
 )
 }
 \arguments{
-\item{loc}{A string.}
+\item{loc}{A string. A valid url or file for the image}
 
 \item{mode}{A string.}
 
-\item{num.color}{An integer.}
+\item{num.color}{An integer. Number of colors needed in the palette}
 
-\item{df.rgb}{A dataframe.}
+\item{threshold}{A number. Lower limit of color contrast}
 
-\item{threshold}{A number.}
+\item{plot_palette}{T/F. Default TRUE to plot the generated palette.}
 
-\item{plot}{T/F.}
+\item{plot_images}{T/F. Default FALSE not to plot the origin nor simulated color blind image. TRUE to plot both.}
+}
+\value{
+A dataframe. Hex codes of a palette and their rgb values.
 }
 \description{
-create color palette from color-blind simullation images
+This function reads an image from a specific location, can be url or local location.
+It returns a palette f
 }

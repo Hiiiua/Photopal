@@ -1,9 +1,9 @@
 #' A function read in an image from url, locally or default build-in image.
 #' 
-#' 
-#' @param loc A string. A valid url or file for the image
-#' 
 #' @importFrom imager load.image
+#'  
+#' @param loc A string. A valid url or file for the image
+#' @returns A 2d dataframe with columns rgb.
 #' 
 #' @export
 #' 
@@ -31,9 +31,10 @@ image2rgb <- function(loc = 'stadium.rda'){
 #' function converts 4d image data to dataframe
 #' 
 #' @param cimg An 4d image tensor
+#' @returns A 2d dataframe with columns rgb.
 #' @export
 #' 
-imgdf2df <- function(cimg){
+cimgdf2df <- function(cimg){
   df.rgb = data.frame(red = as.vector(cimg[,,,1]),
                       green = as.vector(cimg[,,,2]),
                       blue = as.vector(cimg[,,,3]))
@@ -54,6 +55,7 @@ imgdf2df <- function(cimg){
 #' @importFrom farver convert_colour
 #' @importFrom graphics image
 #' @importFrom grDevices rgb
+#' @returns A number. Delta e distance of two colors.
 #' 
 #' @export
 #' 
@@ -97,7 +99,8 @@ contrast <- function(c1, c2, maxColorValue = 255, plot = F){
 #' @importFrom farver convert_colour
 #' @importFrom graphics image
 #' @importFrom grDevices rgb
-#' 
+#' @returns T/F. If the color contrast of the two colors are sufficient.
+#'
 #' @export
 #' 
 #' @examples 
@@ -137,6 +140,7 @@ is_sufficient <- function(c1, c2, maxColorValue=255, threshold=35, plot = T){
 #' @importFrom grDevices dev.new
 #' @importFrom utils menu
 #' @importFrom cli cli_warn cli_inform
+#' @returns A dataframe. Hex codes and their rgb values.
 #' @export
 #' 
 #' @examples
@@ -187,7 +191,8 @@ palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proc
     graphics::barplot(table(palColors), col = palColors, space=0, xlab = "",
                       names.arg = palColors, cex.names = 0.7, axes = F)
   }
-  return(palColors)
+  palette_with_rgb = cbind(centers, palColors)
+  return(palette_with_rgb)
 }
 
 # https://ixora.io/projects/colorblindness/color-blindness-simulation-research/
@@ -203,6 +208,7 @@ palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proc
 #' @importFrom imager load.image cimg
 #' @importFrom graphics plot par
 #' @importFrom Matrix solve
+#' @returns cimg df. simulated cimg.
 #' @param plot T/F. Default to display the colors.
 #' 
 #' @export
@@ -285,19 +291,37 @@ color_blindness_simulation <- function(loc = 'stadium.rda', mode = 'red', compar
 
 
 #' create color palette from color-blind simullation images
+#' 
+#' This function reads an image from a specific location, can be url or local location.
+#' It returns a palette f
 #'
-#' @param loc A string.
+#' @param loc A string. A valid url or file for the image
 #' @param mode A string.
-#' @param threshold A number.
-#' @param df.rgb A dataframe.
-#' @param num.color An integer.
-#' @param plot T/F.
+#' @param threshold A number. Lower limit of color contrast
+#' @param num.color An integer. Number of colors needed in the palette 
+#' @param plot_palette T/F. Default TRUE to plot the generated palette.
+#' @param plot_images T/F. Default FALSE not to plot the origin nor simulated color blind image. TRUE to plot both.
+#' @returns A dataframe. Hex codes of a palette and their rgb values.
+#' 
 #' @export
 #' 
 color_blindness_palette <- function(loc = 'stadium.rda', 
-                                    mode = 'red', num.color = 5,
-                                    df.rgb, threshold = 25, plot = T){
-  simulate = Photopal::color_blindness_simulation(loc = loc, mode = mode, compare = F, plot = F)
-  df.rgb = Photopal::imgdf2df(simulate)
-  Photopal::palette_create(5, df.rgb, 35, plot = T)
+                                    mode = 'red', num.color = 5, threshold = 25, plot_palette = T, plot_images=F){
+  stadium = Photopal::stadium
+  if(loc != 'stadium.rda'){
+    e = try(imager::load.image(loc), silent = T)
+    if("try-error" %in% class(e) ){
+      stop("Not a valid url or location, will proceed with default image.")
+    }
+    else{
+      stadium = imager::load.image(loc)
+    }
+  }
+  
+  simulate = Photopal::color_blindness_simulation(loc = loc, mode = mode, compare = plot_images)
+  df.rgb = Photopal::cimgdf2df(simulate)
+  palette = Photopal::palette_create(5, df.rgb, 35, plot = plot_palette)
+  return(palette)
 }
+
+

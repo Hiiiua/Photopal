@@ -17,6 +17,9 @@ palette_create(num.color = 5, df.rgb, threshold = 25, plot = T, proceed = NA)
 
 \item{proceed}{A testing parameter}
 }
+\value{
+A dataframe. Hex codes and their rgb values.
+}
 \description{
 This function mutes the Error when calling stop
 Palette creating function

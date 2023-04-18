@@ -48,12 +48,12 @@ df.rgb = image2rgb()
 test_that("palette_create", {
   # the output number of colors in palette should matches with num.color specified
   # if not considering threshold
-  expect_equal(length(palette_create(5, df.rgb, 0, plot = F)), 5)
-  expect_equal(length(palette_create(11, df.rgb, 0, plot = F)), 11)
+  expect_equal(dim(palette_create(5, df.rgb, 0, plot = F))[1], 5)
+  expect_equal(dim(palette_create(11, df.rgb, 0, plot = F))[1], 11)
 
   # expect a warning for a high threshold
   expect_warning(palette_create(5, df.rgb, threshold = 35, plot = F, proceed = 1))
   # expect a palette with 5 if insist proceeding
-  expect_equal(length(palette_create(5, df.rgb, threshold = 35, plot = F, proceed = 1)), 5)
+  expect_equal(dim(palette_create(5, df.rgb, threshold = 35, plot = F, proceed = 1))[1], 5)
 })
 

@@ -19,16 +19,49 @@
     <loc>/SUPPORT.html</loc>
   </url>
   <url>
+    <loc>/articles/Photopal.html</loc>
+  </url>
+  <url>
+    <loc>/articles/index.html</loc>
+  </url>
+  <url>
     <loc>/authors.html</loc>
   </url>
   <url>
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/cimgdf2df.html</loc>
+  </url>
+  <url>
+    <loc>/reference/color_blindness_palette.html</loc>
+  </url>
+  <url>
+    <loc>/reference/color_blindness_simulation.html</loc>
+  </url>
+  <url>
+    <loc>/reference/contrast.html</loc>
+  </url>
+  <url>
     <loc>/reference/image.html</loc>
   </url>
   <url>
+    <loc>/reference/image2rgb.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_sufficient.html</loc>
+  </url>
+  <url>
+    <loc>/reference/palette_create.html</loc>
+  </url>
+  <url>
+    <loc>/reference/showcaseApp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/stadium.html</loc>
   </url>
   <url>
     <loc>/reference/test_function.html</loc>

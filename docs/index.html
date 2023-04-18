@@ -40,6 +40,9 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
+  <a href="articles/Photopal.html">Get started</a>
+</li>
+<li>
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
@@ -60,7 +63,6 @@
 </h1></div>
 <!-- badges: start -->
 
-<!-- badges: end -->
 <p>The goal of Photopal is to generate palettes from photos.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -93,6 +95,8 @@
 <li>
 <a href="https://rdrr.io/cran/imager/man/imager.colourspaces.html" class="external-link uri">https://rdrr.io/cran/imager/man/imager.colourspaces.html</a><br>
 Look into CIELab space, probably able to use one of these converting functions from <code>imager</code>
+</li>
+<li>Relative perceptual differences between any two colors in <em>L*a*b*</em> can be approximated by treating each color as a point in a three-dimensional space (with three components: <em>L*</em>, <em>a*</em>, <em>b*</em>) and taking the <a href="https://en.wikipedia.org/wiki/Euclidean_distance" title="Euclidean distance" class="external-link">Euclidean distance</a>between them.<a href="https://en.wikipedia.org/wiki/CIELAB_color_space#cite_note-Jain89-10" class="external-link">[10]</a>
 </li>
 </ul>
 </li>
@@ -162,6 +166,7 @@ Look into CIELab space, probably able to use one of these converting functions f
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/Hiiiua/Photopal/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/Hiiiua/Photopal/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/Hiiiua/Photopal?branch=main" class="external-link"><img src="https://codecov.io/gh/Hiiiua/Photopal/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 

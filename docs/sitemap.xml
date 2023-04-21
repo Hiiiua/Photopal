@@ -34,9 +34,6 @@
     <loc>/reference/cimg2rgb.html</loc>
   </url>
   <url>
-    <loc>/reference/cimgdf2df.html</loc>
-  </url>
-  <url>
     <loc>/reference/color_blindness_palette.html</loc>
   </url>
   <url>
@@ -44,9 +41,6 @@
   </url>
   <url>
     <loc>/reference/contrast.html</loc>
-  </url>
-  <url>
-    <loc>/reference/image.html</loc>
   </url>
   <url>
     <loc>/reference/image2rgb.html</loc>
@@ -65,8 +59,5 @@
   </url>
   <url>
     <loc>/reference/stadium.html</loc>
-  </url>
-  <url>
-    <loc>/reference/test_function.html</loc>
   </url>
 </urlset>

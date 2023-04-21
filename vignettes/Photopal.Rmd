@@ -52,30 +52,12 @@ The `image2rgb` function takes an image from the user and returns an RGB datafra
 
 The `image2rgb` function can be called without image location arguments, as it will load the internal image from Photopal. This is used for most of the demonstrations to address copyright concerns.
 
-```{r echo=FALSE}
-# stadium <- imager::load.image("/Users/huamuxin/Documents/ISU_stat_585/Photopal/stadium.jpg")
-# bird = imager::load.image("https://upload.wikimedia.org/wikipedia/commons/2/2a/Hummingbird.jpg")
-# car <- imager::load.image("/Users/huamuxin/Documents/ISU_stat_585/Left.jpeg")
-```
-
 ```{r}
 df.rgb = image2rgb()
 head(df.rgb)
 ```
 
-It's able to input an image from a website too
-
-```{r}
-birddf = image2rgb("https://upload.wikimedia.org/wikipedia/commons/2/2a/Hummingbird.jpg")
-head(birddf)
-```
-
-User can also do this with a local saved picture.
-
-```{r}
-cardf <- image2rgb("/Users/huamuxin/Documents/ISU_stat_585/Left.jpeg")
-head(cardf)
-```
+It's able to input an image from a website and a local saved picture.
 
 ### Find your limit
 

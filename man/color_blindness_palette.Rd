@@ -27,7 +27,7 @@ color_blindness_palette(
 \item{plot_images}{T/F. Default FALSE not to plot the origin nor simulated color blind image. TRUE to plot both.}
 }
 \value{
-A dataframe. Hex codes of a palette and their rgb values.
+A matrix. Hex codes of a palette and their rgb values.
 }
 \description{
 This function reads an image from a specific location, can be url or local location.

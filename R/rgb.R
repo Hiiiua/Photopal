@@ -148,7 +148,7 @@ is_sufficient <- function(c1, c2, maxColorValue=255, threshold=25, plot = T){
 #' @importFrom grDevices dev.new
 #' @importFrom utils menu
 #' @importFrom cli cli_warn cli_inform
-#' @returns A dataframe. Hex codes and their rgb values.
+#' @returns A matrix. Hex codes and their rgb values.
 #' @export
 #' 
 #' @examples
@@ -311,7 +311,7 @@ color_blindness_simulation <- function(loc = 'stadium.rda', mode = 'red', compar
 #' @param num.color An integer. Number of colors needed in the palette 
 #' @param plot_palette T/F. Default TRUE to plot the generated palette.
 #' @param plot_images T/F. Default FALSE not to plot the origin nor simulated color blind image. TRUE to plot both.
-#' @returns A dataframe. Hex codes of a palette and their rgb values.
+#' @returns A matrix. Hex codes of a palette and their rgb values.
 #' 
 #' @export
 #' 

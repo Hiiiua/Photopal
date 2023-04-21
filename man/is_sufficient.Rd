@@ -4,7 +4,7 @@
 \alias{is_sufficient}
 \title{Tell if the difference is sufficient for human eye to perceive}
 \usage{
-is_sufficient(c1, c2, maxColorValue = 255, threshold = 35, plot = T)
+is_sufficient(c1, c2, maxColorValue = 255, threshold = 25, plot = T)
 }
 \arguments{
 \item{c1}{A numeric list, rgb values of color1.}
@@ -26,4 +26,7 @@ to detect or not.
 }
 \examples{
 is_sufficient(c(70, 50, 50), c(0,0,0))
+}
+\author{
+Hiiiua
 }

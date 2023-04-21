@@ -67,7 +67,7 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of Photopal from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of Photopal from <a href="https://github.com/Hiiiua/Photopal" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Hiiiua/Photopal"</span><span class="op">)</span></span></code></pre></div>
@@ -75,43 +75,34 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
+<p>To create a palette from the internal data</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">Photopal</span><span class="op">)</span></span>
-<span><span class="co">## basic example code</span></span></code></pre></div>
+<span><span class="co"># get the data ready in 2d dataframe with columns of red, green and blue</span></span>
+<span><span class="va">df.rgb</span> <span class="op">=</span> <span class="fu"><a href="reference/image2rgb.html">image2rgb</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># create a palette of 5 colors regardless the similarity</span></span>
+<span><span class="va">palette</span> <span class="op">=</span> <span class="fu"><a href="reference/palette_create.html">palette_create</a></span><span class="op">(</span>num.color <span class="op">=</span> <span class="fl">5</span>, <span class="va">df.rgb</span>, threshold <span class="op">=</span> <span class="fl">0</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p>To simulate an image with blue color deficiency</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">blue_simulation</span> <span class="op">=</span> <span class="fu"><a href="reference/color_blindness_simulation.html">color_blindness_simulation</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"blue"</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p>To create a palette for people with blue color deficiency</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simulated_palette</span> <span class="op">=</span> <span class="fu">Photopal</span><span class="fu">::</span><span class="fu"><a href="reference/color_blindness_palette.html">color_blindness_palette</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">'blue'</span>,threshold <span class="op">=</span> <span class="fl">0</span>, plot_images <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h2>
 <p><a href="https://hiiiua.github.io/Photopal/" class="external-link">Photopal</a></p>
 <div class="section level3">
-<h3 id="brainstorm-ideas">Brainstorm ideas<a class="anchor" aria-label="anchor" href="#brainstorm-ideas"></a>
+<h3 id="to-be-implemented-ideas">To be implemented ideas<a class="anchor" aria-label="anchor" href="#to-be-implemented-ideas"></a>
 </h3>
 <ul>
-<li>
-<p>palette_discrete()</p>
-<ul>
-<li>threshold for distance.</li>
-<li>
-<a href="https://rdrr.io/cran/imager/man/imager.colourspaces.html" class="external-link uri">https://rdrr.io/cran/imager/man/imager.colourspaces.html</a><br>
-Look into CIELab space, probably able to use one of these converting functions from <code>imager</code>
-</li>
-<li>Relative perceptual differences between any two colors in <em>L*a*b*</em> can be approximated by treating each color as a point in a three-dimensional space (with three components: <em>L*</em>, <em>a*</em>, <em>b*</em>) and taking the <a href="https://en.wikipedia.org/wiki/Euclidean_distance" title="Euclidean distance" class="external-link">Euclidean distance</a>between them.<a href="https://en.wikipedia.org/wiki/CIELAB_color_space#cite_note-Jain89-10" class="external-link">[10]</a>
-</li>
-</ul>
-</li>
 <li>
 <p>palette_continuous()</p>
 <ul>
 <li>Look into color theories to see if we can extend the color range.<br>
 </li>
 <li>Warning of not recommending continuous color palette</li>
-</ul>
-</li>
-<li>
-<p>palette_convert_cb(): convert to color-blind safe palette</p>
-<ul>
-<li>An argument to choose the color blindness kind.</li>
 </ul>
 </li>
 <li>
@@ -156,9 +147,9 @@ Look into CIELab space, probably able to use one of these converting functions f
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Tyler <br><small class="roles"> Author </small> <a href="https://orcid.org/YOUR-ORCID-ID" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Muxin <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/YOUR-ORCID-ID" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Charlie <br><small class="roles"> Author </small> <a href="https://orcid.org/YOUR-ORCID-ID" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Muxin <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Tyler <br><small class="roles"> Author </small>  </li>
+<li>Charlie <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
@@ -176,7 +167,7 @@ Look into CIELab space, probably able to use one of these converting functions f
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Tyler, Muxin, Charlie.</p>
+<p>Developed by Muxin, Tyler, Charlie.</p>
 </div>
 
 <div class="pkgdown">

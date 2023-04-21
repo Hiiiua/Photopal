@@ -71,11 +71,310 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">Photopal</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>Photopal is a package that aims to generate color palettes from given
+images. This concept is commonly used in commercial applications. For
+example, anyone has used Chrome, a popular web browser, should be able
+to recognize the color palette that represents Chrome from the two
+examples below.</p>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p>We have developed Photopal with a similar purpose, which is to
+extract colors from user-specified images, whether they are from the
+internet or the user’s computer.</p>
+</div>
+<div class="section level2">
+<h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
+</h2>
+<p>Photopal has a internal data set, <code>stadium</code>, for
+demonstration purposes. But users can use their own image by providing a
+valid url or a local directory. We will demonstrate this in the
+following part.</p>
+</div>
+<div class="section level2">
+<h2 id="palette-create">Palette Create<a class="anchor" aria-label="anchor" href="#palette-create"></a>
+</h2>
+<p>Photopal comes with an internal data set called ‘stadium’ for
+demonstration purposes. However, users can also utilize their own images
+by providing a valid URL or a local directory. We will illustrate this
+in the following sections.</p>
+<div class="section level3">
+<h3 id="read-an-image">Read an image<a class="anchor" aria-label="anchor" href="#read-an-image"></a>
+</h3>
+<p>The RGB color model is a conventional color model used to represent
+colors using three additive primary colors: red, green, and blue. This
+is also the initial approach that Photopal uses to read images, where
+every provided image is read as a 4-dimensional tensor, with dimensions
+for row number, column number, depth (which is always set to 1 as we
+don’t have a 3D image), and RGB values. Since only RGB values are needed
+to create a color palette, a function is required to return an RGB
+dataframe.</p>
+<p>The <code>image2rgb</code> function takes an image from the user and
+returns an RGB dataframe, which is then utilized to create a color
+palette.</p>
+<p>The <code>image2rgb</code> function can be called without image
+location arguments, as it will load the internal image from Photopal.
+This is used for most of the demonstrations to address copyright
+concerns.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df.rgb</span> <span class="op">=</span> <span class="fu"><a href="../reference/image2rgb.html">image2rgb</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df.rgb</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         red     green      blue</span></span>
+<span><span class="co">#&gt; 1 0.2784314 0.3529412 0.8156863</span></span>
+<span><span class="co">#&gt; 2 0.2862745 0.3647059 0.8156863</span></span>
+<span><span class="co">#&gt; 3 0.2862745 0.3647059 0.8156863</span></span>
+<span><span class="co">#&gt; 4 0.2941176 0.3725490 0.8156863</span></span>
+<span><span class="co">#&gt; 5 0.2980392 0.3764706 0.8196078</span></span>
+<span><span class="co">#&gt; 6 0.2941176 0.3725490 0.8156863</span></span></code></pre></div>
+<p>It’s able to input an image from a website too</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">birddf</span> <span class="op">=</span> <span class="fu"><a href="../reference/image2rgb.html">image2rgb</a></span><span class="op">(</span><span class="st">"https://upload.wikimedia.org/wikipedia/commons/2/2a/Hummingbird.jpg"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">birddf</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         red     green       blue</span></span>
+<span><span class="co">#&gt; 1 0.1803922 0.4705882 0.12156863</span></span>
+<span><span class="co">#&gt; 2 0.1803922 0.4745098 0.10980392</span></span>
+<span><span class="co">#&gt; 3 0.1803922 0.4705882 0.09019608</span></span>
+<span><span class="co">#&gt; 4 0.1882353 0.4705882 0.08235294</span></span>
+<span><span class="co">#&gt; 5 0.1882353 0.4705882 0.07843137</span></span>
+<span><span class="co">#&gt; 6 0.1960784 0.4705882 0.08627451</span></span></code></pre></div>
+<p>User can also do this with a local saved picture.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cardf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/image2rgb.html">image2rgb</a></span><span class="op">(</span><span class="st">"/Users/huamuxin/Documents/ISU_stat_585/Left.jpeg"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cardf</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         red     green      blue</span></span>
+<span><span class="co">#&gt; 1 0.7215686 0.8823529 0.9529412</span></span>
+<span><span class="co">#&gt; 2 0.7215686 0.8823529 0.9529412</span></span>
+<span><span class="co">#&gt; 3 0.7215686 0.8823529 0.9529412</span></span>
+<span><span class="co">#&gt; 4 0.7215686 0.8823529 0.9529412</span></span>
+<span><span class="co">#&gt; 5 0.7215686 0.8823529 0.9529412</span></span>
+<span><span class="co">#&gt; 6 0.7215686 0.8823529 0.9529412</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="find-your-limit">Find your limit<a class="anchor" aria-label="anchor" href="#find-your-limit"></a>
+</h3>
+<p>TThere is a limit to the human eye’s ability to detect color
+differences, even for individuals without color deficiency. For example,
+it is typically easy to differentiate between the following two
+colors.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">color1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">50</span>, <span class="fl">50</span><span class="op">)</span> </span>
+<span><span class="va">color2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">contrast1</span> <span class="op">=</span> <span class="fu">Photopal</span><span class="fu">::</span><span class="fu"><a href="../reference/contrast.html">contrast</a></span><span class="op">(</span><span class="va">color1</span>, <span class="va">color2</span>, maxColorValue <span class="op">=</span> <span class="fl">255</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p>However, if the first color is darkened while the second black color
+remains unchanged, it may be more challenging to discern the differences
+between them.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">color3</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">50</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">contrast2</span> <span class="op">=</span> <span class="fu">Photopal</span><span class="fu">::</span><span class="fu"><a href="../reference/contrast.html">contrast</a></span><span class="op">(</span><span class="va">color3</span>, <span class="va">color2</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p>If the first color is further darkened, it may require a closer look
+or an increase in screen brightness to perceive the difference.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">color4</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">50</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">contrast3</span> <span class="op">=</span> <span class="fu">Photopal</span><span class="fu">::</span><span class="fu"><a href="../reference/contrast.html">contrast</a></span><span class="op">(</span><span class="va">color4</span>, <span class="va">color2</span>, maxColorValue <span class="op">=</span> <span class="fl">255</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p>Since I mentioned increasing screen brightness, it appears that the
+ability to perceive color differences is dependent on the device used,
+which is inherent to the RGB color model. However, we have taken this
+into account, and the distance calculated above is
+device-independent.</p>
+<p>We can now proceed to print out the calculated distance.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"The first contrast is %f, the second contrast is %f, the third contrast is %f"</span>, <span class="va">contrast1</span>, <span class="va">contrast2</span>, <span class="va">contrast3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "The first contrast is 25.015116, the second contrast is 22.360731, the third contrast is 20.787778"</span></span></code></pre></div>
+<p>The way the distance relates to color contrast aligns with intuition,
+where a larger distance value indicates a larger color difference.</p>
+<p>To determine if a color pair has sufficient contrast, users can call
+the <code>is_sufficient</code> function for verification. If users want
+to set their own limits beforehand, it would be helpful to create a
+color palette with enough color contrast. However, if a user fails to do
+so, we have set the default color distance threshold as 25, as the
+theoretical sufficient distance value to distinguish color differences
+is typically between 20-30. This default threshold is utilized in all
+functions that require a threshold.</p>
+<p>If we run the first color pair with these settings, we get:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/is_sufficient.html">is_sufficient</a></span><span class="op">(</span><span class="va">color1</span>, <span class="va">color2</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<pre><code><span><span class="co">#&gt; [1] TRUE</span></span></code></pre>
+<p>However, if we run the second color pair, for which we know the
+distance is insufficient, we will get:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/is_sufficient.html">is_sufficient</a></span><span class="op">(</span><span class="va">color3</span>, <span class="va">color2</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<pre><code><span><span class="co">#&gt; [1] FALSE</span></span></code></pre>
+<p>It’s also possible to specify the distance threshold. For example, if
+we assign the threshold to be 20, the function should return
+<code>TRUE</code> for the second color pair.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/is_sufficient.html">is_sufficient</a></span><span class="op">(</span><span class="va">color1</span>, <span class="va">color2</span>, threshold <span class="op">=</span> <span class="fl">20</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<pre><code><span><span class="co">#&gt; [1] TRUE</span></span></code></pre>
+<p>To find the limit we want users to aware of undifferentiable color
+pairs by looking at the contrast here.</p>
+</div>
+<div class="section level3">
+<h3 id="lets-make-a-palette">Let’s make a palette<a class="anchor" aria-label="anchor" href="#lets-make-a-palette"></a>
+</h3>
+<p>Now, we are ready to create a palette. The easiest way to do this is
+by using the RGB dataframe that we generated in the ‘read an image’
+section. Let’s take a look at how the image looks like:</p>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p>We can call the function with default arguments, passing in the RGB
+dataframe as input, and it will return a dataframe of a palette with 5
+colors in both hexcodes and their corresponding RGB values. The default
+argument will also display the palette.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># default color number of 5 and diaplay the palette</span></span>
+<span><span class="va">palette1</span> <span class="op">=</span> <span class="fu"><a href="../reference/palette_create.html">palette_create</a></span><span class="op">(</span>df.rgb <span class="op">=</span> <span class="va">df.rgb</span>, threshold <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p>It seems that the green color from the field is missing, which is due
+to the default number of colors in the palette being set to 5. If we
+increase the number of colors to 8, we will get a palette that includes
+the green color from the field.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">palette2</span> <span class="op">=</span> <span class="fu"><a href="../reference/palette_create.html">palette_create</a></span><span class="op">(</span>df.rgb <span class="op">=</span> <span class="va">df.rgb</span>, num.color <span class="op">=</span> <span class="fl">8</span>, threshold <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p>In addition to the <code>num.color</code> argument, there is another
+argument called <code>threshold</code>. I have set it to 0 here to avoid
+triggering a warning. The threshold is used to determine if the color
+contrast is sufficient in the palette. We have a default threshold of
+25, as there is a theoretical value for color contrast. However, we
+don’t want to restrict users from generating a wider palette, so we
+provide the option to adjust the threshold. If the contrast between
+colors is less than the threshold, a warning will be raised, informing
+the user of similar colors in the palette. Users can then choose to
+proceed or start over. By setting the <code>threshold = 0</code>, it
+means that I want to proceed regardless of color similarity, as any
+color distance larger than 0 will be allowed in the palette.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="palettes-for-the-color-deficient">Palettes for the color deficient<a class="anchor" aria-label="anchor" href="#palettes-for-the-color-deficient"></a>
+</h2>
+<p>Color vision is not uniform across everyone, and approximately 10% of
+the population may experience a reduction in their ability to perceive
+colors due to color vision deficiencies. It’s important to take this
+into consideration when creating color palettes to ensure that they are
+accessible to all users. A palette that may appear distinct to
+individuals with normal color vision may not be distinguishable to those
+with color vision deficiencies. Designing palettes with sufficient color
+contrast can help make them usable and visually appealing for all users,
+regardless of their color vision abilities.</p>
+<div class="section level3">
+<h3 id="what-a-color-deficient-person-see">What a color deficient person see<a class="anchor" aria-label="anchor" href="#what-a-color-deficient-person-see"></a>
+</h3>
+<p>Generating a palette that is visually distinguishable for individuals
+with color vision deficiencies can be challenging, as we may not have a
+clear understanding of how they perceive colors. To address this
+challenge, we can start by simulating images for the three most common
+types of color blindness, which include red-green color blindness
+(deuteranopia), blue-yellow color blindness (tritanopia), and total
+color blindness (achromatopsia). By simulating these images, we can
+approximate how the palette may appear to individuals with different
+types of color vision deficiencies, and make adjustments to create a
+more inclusive palette.</p>
+<div class="section level4">
+<h4 id="how-colors-are-perceived">How colors are perceived<a class="anchor" aria-label="anchor" href="#how-colors-are-perceived"></a>
+</h4>
+<p>Colors are perceived by humans when lights of different wavelengths
+are reflected into their eyes. Human trichromats have three types of
+cone cells in their eyes, each with a unique sensitivity to the
+wavelength of light. These three types of cones are responsible for
+perceiving the three primary colors: red, green, and blue. Long
+wavelengths are associated with the color red, medium wavelengths with
+the color green, and short wavelengths with the color blue.</p>
+</div>
+<div class="section level4">
+<h4 id="how-types-of-color-blindness-are-simulated">How types of color blindness are simulated<a class="anchor" aria-label="anchor" href="#how-types-of-color-blindness-are-simulated"></a>
+</h4>
+<p>There are three most common types of color blindness: protanopia (red
+color blindness), deuteranopia (green color blindness), and tritanopia
+(blue color blindness). These types correspond to the efficiency in
+perceiving long wavelengths, medium wavelengths, and short wavelengths,
+respectively.</p>
+<p>To simulate color blindness of each type, we will work in the LMS
+color space instead of the RGB scheme mentioned earlier. This allows us
+to remove the corresponding component to mimic the color deficiency. For
+example, to simulate protanopia, we will convert a set of RGB values
+into LMS values using a transforming matrix, then remove the long
+wavelength component, and finally convert back to RGB space for display.
+Some details have also been taken care of, such as the fact that
+deficiency in red cone cells does not impair the ability to distinguish
+green and blue, so violet, which is a combination of red and blue, can
+still be partially perceived.</p>
+</div>
+<div class="section level4">
+<h4 id="lets-simulate">Let’s simulate<a class="anchor" aria-label="anchor" href="#lets-simulate"></a>
+</h4>
+<p>Based on the theory described above, we can perform simulations of
+the stadium image for different types of color blindness as follows:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">red_simulation</span> <span class="op">=</span> <span class="fu">Photopal</span><span class="fu">::</span><span class="fu"><a href="../reference/color_blindness_simulation.html">color_blindness_simulation</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"red"</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">blue_simulation</span> <span class="op">=</span> <span class="fu">Photopal</span><span class="fu">::</span><span class="fu"><a href="../reference/color_blindness_simulation.html">color_blindness_simulation</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"blue"</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-19-2.png" width="700"></p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">green_simulation</span> <span class="op">=</span> <span class="fu">Photopal</span><span class="fu">::</span><span class="fu"><a href="../reference/color_blindness_simulation.html">color_blindness_simulation</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"green"</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-19-3.png" width="700"></p>
+<p>The image on the left-hand side shows the simulated image for a
+specific type of color blindness, while the image on the right-hand side
+shows the image as perceived by someone with normal color vision. The
+function used in this process returns a cimg data, which is a
+4-dimensional tensor with rows, columns, depth, and color channels. This
+data format is designed to display the simulated image. However, if
+users prefer to have an RGB dataframe, they can easily obtain it by
+calling the function <code>icmg2rgb</code> in the subsequent step.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simulated.rgb</span> <span class="op">=</span> <span class="fu">Photopal</span><span class="fu">::</span><span class="fu"><a href="../reference/cimg2rgb.html">cimg2rgb</a></span><span class="op">(</span><span class="va">red_simulation</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">simulated.rgb</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         red     green      blue</span></span>
+<span><span class="co">#&gt; 1 0.3402330 0.3402330 0.8160228</span></span>
+<span><span class="co">#&gt; 2 0.3513289 0.3513289 0.8160406</span></span>
+<span><span class="co">#&gt; 3 0.3513289 0.3513289 0.8160406</span></span>
+<span><span class="co">#&gt; 4 0.3591720 0.3591720 0.8160406</span></span>
+<span><span class="co">#&gt; 5 0.3630936 0.3630936 0.8199621</span></span>
+<span><span class="co">#&gt; 6 0.3591720 0.3591720 0.8160406</span></span></code></pre></div>
+<p>It’s important to highlight that color perception in the brain is a
+complex process, and individuals with color deficiency may not have
+uniform levels of cone cell deficiency, even among those with the same
+type of color blindness. The simulation presented here is a crude
+estimation and may not fully capture the individual nuances of color
+perception for people with color deficiency. It’s essential to be
+mindful that color perception can vary greatly among individuals, and
+any simulation or representation of color deficiency should be used with
+caution, as it may not fully reflect the unique experiences of those
+with color vision deficiencies. Further research and advancements in
+color science may lead to more accurate simulations in the future.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="lets-create-a-palette-for-the-color-deficient">Let’s create a palette for the color deficient<a class="anchor" aria-label="anchor" href="#lets-create-a-palette-for-the-color-deficient"></a>
+</h3>
+<p>Building upon the previous step of color blindness simulation, we
+have implemented a function to create palettes specifically designed for
+different types of color blindness from an image. As an example, we are
+demonstrating the creation of a palette for the tritanopes (blue color
+blind) mode using the stadium image. The optional argument “plot_images”
+can be used to display both the original and simulated images for
+comparison.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simulated_palette</span> <span class="op">=</span> <span class="fu">Photopal</span><span class="fu">::</span><span class="fu"><a href="../reference/color_blindness_palette.html">color_blindness_palette</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">'blue'</span>,</span>
+<span>                                                      threshold <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>                                                      plot_images <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Photopal_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
@@ -83,7 +382,7 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Tyler, Muxin, Charlie.</p>
+<p>Developed by Muxin, Tyler, Charlie.</p>
 </div>
 
 <div class="pkgdown">

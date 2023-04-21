@@ -57,3 +57,17 @@ test_that("palette_create", {
   expect_equal(dim(palette_create(5, df.rgb, threshold = 35, plot = F, proceed = 1))[1], 5)
 })
 
+
+test_that("color_blindness_simulation",{
+  # a returned cimg has 4 dimensions
+  expect_equal(length(dim(color_blindness_simulation(mode = 'blue'))), 4)
+  # the last dimension has rgb
+  expect_equal(dim(color_blindness_simulation(mode = 'blue'))[4], 3)
+})
+
+test_that("color_blindness_palette", {
+  # default has 5 colors
+  expect_equal(dim(color_blindness_palette(threshold = 0, plot_palette = F))[1], 5)
+  # returned dataframe should have nrow matches with specified num.color
+  expect_equal(dim(color_blindness_palette(num.color = 8, threshold = 0, plot_palette = F))[1], 8)
+})

@@ -19,3 +19,6 @@ A function read in an image from url, locally or default build-in image.
 im = image2rgb()
 head(im)
 }
+\author{
+Hiiiua
+}

@@ -34,3 +34,6 @@ than differentiating threshold, it will throw warning before proceeding.
 df.rgb = image2rgb()
 palette_create(5, df.rgb, 25)
 }
+\author{
+Hiiiua
+}

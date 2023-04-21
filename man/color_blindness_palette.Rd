@@ -2,7 +2,7 @@
 % Please edit documentation in R/rgb.R
 \name{color_blindness_palette}
 \alias{color_blindness_palette}
-\title{create color palette from color-blind simullation images}
+\title{create color palette from color-blind simulation images}
 \usage{
 color_blindness_palette(
   loc = "stadium.rda",
@@ -32,4 +32,10 @@ A dataframe. Hex codes of a palette and their rgb values.
 \description{
 This function reads an image from a specific location, can be url or local location.
 It returns a palette f
+}
+\examples{
+color_blindness_palette(threshold = 0)
+}
+\author{
+Hiiiua
 }

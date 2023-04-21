@@ -1,4 +1,5 @@
 #' A function read in an image from url, locally or default build-in image.
+#' @author Hiiiua
 #' 
 #' @importFrom imager load.image
 #'  
@@ -29,12 +30,16 @@ image2rgb <- function(loc = 'stadium.rda'){
 }
 
 #' function converts 4d image data to dataframe
+#' @author Hiiiua
 #' 
 #' @param cimg An 4d image tensor
 #' @returns A 2d dataframe with columns rgb.
 #' @export
 #' 
-cimgdf2df <- function(cimg){
+#' @examples 
+#' stadium = Photopal::stadium
+#' cimg2rgb(stadium)
+cimg2rgb <- function(cimg){
   df.rgb = data.frame(red = as.vector(cimg[,,,1]),
                       green = as.vector(cimg[,,,2]),
                       blue = as.vector(cimg[,,,3]))
@@ -46,6 +51,7 @@ cimgdf2df <- function(cimg){
 #' This function returns the colors difference. 
 #' Passing in two sets of rgb values of two colors, gets returned 
 #' delta e color distance and display.
+#' @author Hiiiua
 #' 
 #' @param c1 A numeric list, rgb values of color1. 
 #' @param c2 A numeric list, rgb values of color2.
@@ -71,7 +77,7 @@ contrast <- function(c1, c2, maxColorValue = 255, plot = F){
   s2 = farver::convert_colour(t(c2), from = 'rgb', to='lab')
   distance = sqrt(sum((s1-s2)**2))
   
-  if(plot == TRUE){
+  if(plot == T){
   c = rbind(c1, c2)
       graphics::image(1:nrow(c), 0, as.matrix(1:nrow(c)), 
             col= grDevices::rgb(c[,1], c[,2], c[,3], maxColorValue = 255),
@@ -89,6 +95,7 @@ contrast <- function(c1, c2, maxColorValue = 255, plot = F){
 #' 
 #' This function returns whether the colors difference is sufficient for human eye 
 #' to detect or not.
+#' @author Hiiiua
 #' 
 #' @param c1 A numeric list, rgb values of color1.
 #' @param c2 A numeric list, rgb values of color2.
@@ -105,7 +112,7 @@ contrast <- function(c1, c2, maxColorValue = 255, plot = F){
 #' 
 #' @examples 
 #' is_sufficient(c(70, 50, 50), c(0,0,0))
-is_sufficient <- function(c1, c2, maxColorValue=255, threshold=35, plot = T){
+is_sufficient <- function(c1, c2, maxColorValue=255, threshold=25, plot = T){
   return(contrast(c1, c2, maxColorValue = maxColorValue, plot = plot) >= threshold)
 }
 
@@ -128,7 +135,8 @@ is_sufficient <- function(c1, c2, maxColorValue=255, threshold=35, plot = T){
 #'dataframe of pixels in rgb. If the extracted colors are sufficient for differentiating
 #'it automatically generates the pallete, but if the color contrast is less
 #'than differentiating threshold, it will throw warning before proceeding.
-#'
+#' @author Hiiiua
+#' 
 #' @param num.color An integer. How many colors needed in the palette
 #' @param df.rgb A data.frame. This dataframe should have all pixels' rgb information of an image
 #' @param threshold A number. To determine the minimum accepted color difference in the palette
@@ -199,6 +207,7 @@ palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proc
 #' different color-blind simulations
 #' 
 #' This function takes in an image, transforming it to simulate color-blind vision
+#' @author Hiiiua
 #' 
 #' @param loc A string. A location of an image
 #' @param mode A string. Specify color blind type
@@ -290,11 +299,12 @@ color_blindness_simulation <- function(loc = 'stadium.rda', mode = 'red', compar
 
 
 
-#' create color palette from color-blind simullation images
+#' create color palette from color-blind simulation images
 #' 
 #' This function reads an image from a specific location, can be url or local location.
 #' It returns a palette f
-#'
+#' @author Hiiiua
+#' 
 #' @param loc A string. A valid url or file for the image
 #' @param mode A string.
 #' @param threshold A number. Lower limit of color contrast
@@ -305,8 +315,11 @@ color_blindness_simulation <- function(loc = 'stadium.rda', mode = 'red', compar
 #' 
 #' @export
 #' 
+#' @examples 
+#' color_blindness_palette(threshold = 0)
 color_blindness_palette <- function(loc = 'stadium.rda', 
-                                    mode = 'red', num.color = 5, threshold = 25, plot_palette = T, plot_images=F){
+                                    mode = 'red', num.color = 5, threshold = 25,
+                                    plot_palette = T, plot_images = F){
   stadium = Photopal::stadium
   if(loc != 'stadium.rda'){
     e = try(imager::load.image(loc), silent = T)
@@ -318,9 +331,12 @@ color_blindness_palette <- function(loc = 'stadium.rda',
     }
   }
   
-  simulate = Photopal::color_blindness_simulation(loc = loc, mode = mode, compare = plot_images)
-  df.rgb = Photopal::cimgdf2df(simulate)
-  palette = Photopal::palette_create(5, df.rgb, 35, plot = plot_palette)
+  simulate = Photopal::color_blindness_simulation(loc = loc, mode = mode,
+                                                  compare = plot_images, plot = T)
+  df.rgb = Photopal::cimg2rgb(simulate)
+  palette = Photopal::palette_create(num.color = num.color, 
+                                     df.rgb = df.rgb, threshold = threshold,
+                                     plot = plot_palette)
   return(palette)
 }
 

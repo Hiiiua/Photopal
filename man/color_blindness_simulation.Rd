@@ -29,3 +29,6 @@ This function takes in an image, transforming it to simulate color-blind vision
 \examples{
 color_blindness_simulation()
 }
+\author{
+Hiiiua
+}

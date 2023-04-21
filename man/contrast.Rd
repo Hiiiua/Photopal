@@ -27,3 +27,6 @@ delta e color distance and display.
 contrast(c(70, 50, 50), c(0,0,0))
 contrast(c(0.2745098, 0.1960784, 0.1960784),c(0,0,0), maxColorValue = 1)
 }
+\author{
+Hiiiua
+}

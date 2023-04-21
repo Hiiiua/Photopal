@@ -49,7 +49,7 @@ to detect or not.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is_sufficient</span><span class="op">(</span><span class="va">c1</span>, <span class="va">c2</span>, maxColorValue <span class="op">=</span> <span class="fl">255</span>, threshold <span class="op">=</span> <span class="fl">35</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is_sufficient</span><span class="op">(</span><span class="va">c1</span>, <span class="va">c2</span>, maxColorValue <span class="op">=</span> <span class="fl">255</span>, threshold <span class="op">=</span> <span class="fl">25</span>, plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -80,12 +80,16 @@ to detect or not.</p>
 
 <p>T/F. If the color contrast of the two colors are sufficient.</p>
     </div>
+    <div id="author">
+    <h2>Author</h2>
+    <p>Hiiiua</p>
+    </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">is_sufficient</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">50</span>, <span class="fl">50</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="is_sufficient-1.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
   </div>
@@ -96,7 +100,7 @@ to detect or not.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Tyler, Muxin, Charlie.</p>
+  <p></p><p>Developed by Muxin, Tyler, Charlie.</p>
 </div>
 
 <div class="pkgdown">

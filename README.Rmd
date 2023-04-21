@@ -25,7 +25,7 @@ The goal of Photopal is to generate palettes from photos.
 
 ## Installation
 
-You can install the development version of Photopal from [GitHub](https://github.com/) with:
+You can install the development version of Photopal from [GitHub](https://github.com/Hiiiua/Photopal) with:
 
 ``` r
 # install.packages("devtools")
@@ -34,34 +34,36 @@ devtools::install_github("Hiiiua/Photopal")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+To create a palette from the internal data
 
 ``` r
 library(Photopal)
-## basic example code
+# get the data ready in 2d dataframe with columns of red, green and blue
+df.rgb = image2rgb()
+# create a palette of 5 colors regardless the similarity
+palette = palette_create(num.color = 5, df.rgb, threshold = 0, plot = T)
+```
+
+To simulate an image with blue color deficiency
+``` r
+blue_simulation = color_blindness_simulation(mode = "blue", plot = T)
+```
+
+To create a palette for people with blue color deficiency
+``` r
+simulated_palette = Photopal::color_blindness_palette(mode = 'blue',threshold = 0, plot_images = T)
 ```
 
 ## Documentation
 
 [Photopal](https://hiiiua.github.io/Photopal/)
 
-### Brainstorm ideas
-
--   palette_discrete()
-
-    -   threshold for distance.
-    -   <https://rdrr.io/cran/imager/man/imager.colourspaces.html>  
-        Look into CIELab space, probably able to use one of these converting functions from `imager`
-    -   Relative perceptual differences between any two colors in *L\*a\*b\** can be approximated by treating each color as a point in a three-dimensional space (with three components: *L\**, *a\**, *b\**) and taking the [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance "Euclidean distance")between them.[[10]](https://en.wikipedia.org/wiki/CIELAB_color_space#cite_note-Jain89-10)
+### To be implemented ideas
 
 -   palette_continuous()
 
     -   Look into color theories to see if we can extend the color range.  
     -   Warning of not recommending continuous color palette
-
--   palette_convert_cb(): convert to color-blind safe palette
-
-    -   An argument to choose the color blindness kind.
 
 -   use the original photo and overlay a 3D heatmap that shows which areas of the image has the highest intensities of colors from the generated palette
 

@@ -56,18 +56,25 @@ test_that("palette_create", {
   expect_warning(palette_create(5, df.rgb, threshold = 35, plot = F, proceed = 1))
   # expect a palette with 5 if insist proceeding
   expect_equal(dim(palette_create(5, df.rgb, threshold = 35, plot = F, proceed = 1))[1], 5)
+  
+  
 })
 
 
 test_that("color_blindness_simulation",{
+  expect_error(color_blindness_simulation(loc = loc_invalid))
+  
   # a returned cimg has 4 dimensions
   expect_equal(length(dim(color_blindness_simulation(mode = 'blue'))), 4)
   # the last dimension has rgb
   expect_equal(dim(color_blindness_simulation(mode = 'blue'))[4], 3)
   expect_true(class(color_blindness_simulation(mode = 'blue'))[1] == "cimg")
+  # green
+  expect_equal(dim(color_blindness_simulation(mode = 'green'))[4], 3)
 })
 
 test_that("color_blindness_palette", {
+  expect_error(color_blindness_palette(loc = loc_invalid))
   # default has 5 colors
   expect_equal(dim(color_blindness_palette(threshold = 0, plot_palette = F))[1], 5)
   # returned dataframe should have nrow matches with specified num.color
@@ -77,3 +84,5 @@ test_that("color_blindness_palette", {
   # this matrix has four columns: R, G, B and hexcode
   expect_true(dim(color_blindness_palette(num.color = 8, threshold = 0, plot_palette = F))[2] == 4)
 })
+
+

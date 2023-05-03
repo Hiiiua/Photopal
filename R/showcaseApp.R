@@ -6,8 +6,6 @@
 #' @import imager
 #' @importFrom shinycssloaders withSpinner
 #' @export
-#' @examples
-#' showcaseApp()
 #' 
 #' 
 

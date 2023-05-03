@@ -9,11 +9,6 @@ showcaseApp()
 \description{
 Shiny app calling function
 }
-\examples{
-showcaseApp()
-
-
-}
 \author{
 Tyler Wiederich
 }

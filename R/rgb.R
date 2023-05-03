@@ -273,7 +273,12 @@ color_blindness_simulation <- function(loc = 'stadium.rda', mode = 'red', compar
   }
   
   # convert 4d to 2d for transforming
-  im_rgb = stadium[,,,]
+  # if(dim(stadium)[4]==4){
+  #   stadium = stadium[,,,1:3] #remove 4th column if present
+  # }
+  
+  im_rgb = stadium[,,,1:3]
+  
   row = dim(im_rgb)[1]
   col = dim(im_rgb)[2]
   im_rgb.flat = matrix(im_rgb, prod(row, col), dim(im_rgb)[3])

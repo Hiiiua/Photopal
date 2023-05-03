@@ -67,7 +67,27 @@ showcaseApp <- function(){
 
   #Colorblind page
   colorblindPage <- fluidPage(
-
+    sidebarLayout(
+      sidebarPanel(
+        h2('Instructions'),
+        p("This page uses the same photo that is specified on the 'Create a palette' page."),
+        selectizeInput('cb.mode', 'Colorblind mode', choices = c('Red', 'Green', 'Blue'))
+        
+      ), #end sidebar panel
+      mainPanel(
+        
+        fluidRow(
+          plotOutput('cb.photo')
+        ),
+        fluidRow(
+          column(8, align = 'center',
+                 plotOutput('cb.palette')),
+          column(4, align = 'center',
+                 tableOutput('cb.palTable'))
+        )
+        
+      ) #end main panel
+    ) #end sidebar layout
   ) #end colorblind page
 
 
@@ -96,15 +116,18 @@ showcaseApp <- function(){
     #Data inputted from user
     appData <- reactiveValues(
       userPhoto = NULL,
+      userPhotoLoc = NULL,
       defaultPhoto = stadium,
       palPhoto = NULL,
-      pal = NULL
+      pal = NULL,
+      cb.pal = NULL
     )#end
     
     #Observe new file upload from user
     observeEvent(input$userPic, {
       appData$userPhoto <- input$userPic
       validate(need(!is.null(appData$userPhoto), 'Photo needs to be uploaded'))
+      appData$userPhotoLoc = appData$userPhoto[['datapath']]
       appData$palPhoto <- load.image(appData$userPhoto[['datapath']])
       appData$pal <- palette_create(input$numcols, image2rgb(appData$userPhoto[['datapath']]), proceed = T)
     })
@@ -112,6 +135,7 @@ showcaseApp <- function(){
     #Observe default button pushed
     observeEvent(input$useDefault, {
       appData$palPhoto <- appData$defaultPhoto
+      appData$userPhotoLoc = 'stadium.rda'
       appData$pal <- palette_create(input$numcols, image2rgb(), proceed = T)
     })
     
@@ -147,7 +171,69 @@ showcaseApp <- function(){
 
 
 
+    
+    
 
+    
+    #Colorblind photo comparison
+    output$cb.photo <- renderPlot({
+      validate(need(!is.null(appData$palPhoto), ' '))
+      
+      if(input$cb.mode == 'Red'){
+        color_blindness_simulation(loc = appData$userPhotoLoc,
+                                   mode = 'red')
+      }
+      
+      if(input$cb.mode == 'Green'){
+        color_blindness_simulation(loc = appData$userPhotoLoc,
+                                   mode = 'green')
+      }
+      
+      if(input$cb.mode == 'Blue'){
+        color_blindness_simulation(loc = appData$userPhotoLoc,
+                                   mode = 'blue')
+      }
+      
+    })
+    
+    
+    
+    # #Observe cb mode to create palette
+    # observeEvent(input$cb.mode, {
+    #   appData$cb.pal <- color_blindness_palette(loc = appData$userPhotoLoc,
+    #                                            mod = switch(input$cb.mode,
+    #                                                         Red = 'red',
+    #                                                         Blue = 'blue',
+    #                                                         Green = 'green'))
+    # })
+    
+    
+    
+    output$cb.palette <- renderPlot({
+      
+      
+      validate(need(!is.null(appData$cb.pal), ' '))
+      barplot(sort(table(appData$cb.pal[,'palColors'])), col = sort(appData$cb.pal[,'palColors']), axes = F,
+              xaxt="n", yaxt="n")
+      
+      
+    })
+    
+
+    
+    
+    # fluidRow(
+    #   plotOutput('cb.photo')
+    # ),
+    # fluidRow(
+    #   column(8, align = 'center',
+    #          plotOutput('cb.palette')),
+    #   column(4, align = 'center',
+    #          tableOutput('cb.palTable'))
+    # )
+    
+    
+    
 
 
 

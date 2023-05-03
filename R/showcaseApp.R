@@ -1,6 +1,8 @@
 #' Shiny app calling function
 #'
-#' @importFrom shiny runApp
+#' @import shinythemes
+#' @import shiny
+#' @import imager
 #' @export
 
 
@@ -17,11 +19,8 @@ showcaseApp <- function(){
 
 
 library(shiny)
-library(shinyjs)
-library(Photopal)
 library(shinythemes)
 library(imager)
-library(stringr)
 
 
 showcaseApp <- function(){
@@ -70,20 +69,20 @@ showcaseApp <- function(){
     sidebarLayout(
       sidebarPanel(
         h2('Instructions'),
-        p("This page uses the same photo that is specified on the 'Create a palette' page."),
+        p("This page uses the same photo that is specified on the 'Create a palette' page. Select a colorblind option to create a palatte based on the colorblind version of the image."),
         selectizeInput('cb.mode', 'Colorblind mode', choices = c('Red', 'Green', 'Blue'))
         
       ), #end sidebar panel
       mainPanel(
         
         fluidRow(
-          plotOutput('cb.photo')
+          shinycssloaders::withSpinner(plotOutput('cb.photo'))
         ),
         fluidRow(
           column(8, align = 'center',
-                 plotOutput('cb.palette')),
+                 shinycssloaders::withSpinner(plotOutput('cb.palette'))),
           column(4, align = 'center',
-                 tableOutput('cb.palTable'))
+                 shinycssloaders::withSpinner(tableOutput('cb.palTable')))
         )
         
       ) #end main panel
@@ -91,18 +90,14 @@ showcaseApp <- function(){
   ) #end colorblind page
 
 
-  #Color analysis
-  colorAnalysisPage <- fluidPage(
 
-  ) #end color analysis page
 
 
 
   #Main page layout
   ui <- navbarPage("Photopal", theme = shinytheme('flatly'),
                    tabPanel("Create a palette", createPalettePage),
-                   tabPanel("Colorblind", colorblindPage),
-                   tabPanel("Image color analysis", colorAnalysisPage)
+                   tabPanel("Colorblind", colorblindPage)
   )
 
 
@@ -198,29 +193,53 @@ showcaseApp <- function(){
     
     
     
-    # #Observe cb mode to create palette
-    # observeEvent(input$cb.mode, {
-    #   appData$cb.pal <- color_blindness_palette(loc = appData$userPhotoLoc,
-    #                                            mod = switch(input$cb.mode,
-    #                                                         Red = 'red',
-    #                                                         Blue = 'blue',
-    #                                                         Green = 'green'))
-    # })
+    
+    
+    
+    
+    
+
+      
+      
     
     
     
     output$cb.palette <- renderPlot({
+      if(input$cb.mode == 'Red'){
+        appData$cb.pal <- color_blindness_palette(loc = appData$userPhotoLoc,
+                                                  mode = 'red', plot_images = F, plot_palette = F,
+                                                  num.color = input$numcols)
+      }
       
+      if(input$cb.mode == 'Green'){
+        appData$cb.pal <- color_blindness_palette(loc = appData$userPhotoLoc,
+                                                  mode = 'green', plot_images = F, plot_palette = F,
+                                                  num.color = input$numcols)
+      }
       
-      validate(need(!is.null(appData$cb.pal), ' '))
+      if(input$cb.mode == 'Blue'){
+        appData$cb.pal <- color_blindness_palette(loc = appData$userPhotoLoc,
+                                                  mode = 'blue', plot_images = F, plot_palette = F,
+                                                  num.color = input$numcols)
+      }
+
+      validate(need(!is.null(appData$cb.pal), 'Error message here'))
       barplot(sort(table(appData$cb.pal[,'palColors'])), col = sort(appData$cb.pal[,'palColors']), axes = F,
               xaxt="n", yaxt="n")
-      
-      
+
+
     })
-    
 
     
+    
+    output$cb.palTable <- renderTable({
+
+      validate(need(!is.null(appData$cb.pal), ' '))
+      cb.pal = data.frame(appData$cb.pal[,'palColors'])
+      names(cb.pal) <- c('Palette Colors')
+      cb.pal
+    })
+
     
     # fluidRow(
     #   plotOutput('cb.photo')

@@ -341,7 +341,7 @@ color_blindness_palette <- function(loc = 'stadium.rda',
   df.rgb = Photopal::cimg2rgb(simulate)
   palette = Photopal::palette_create(num.color = num.color, 
                                      df.rgb = df.rgb, threshold = threshold,
-                                     plot = plot_palette)
+                                     plot = plot_palette, proceed = T)
   return(palette)
 }
 

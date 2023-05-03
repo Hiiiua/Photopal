@@ -1,9 +1,15 @@
 #' Shiny app calling function
 #'
+#' @author Tyler Wiederich
 #' @import shinythemes
 #' @import shiny
 #' @import imager
+#' @importFrom shinycssloaders withSpinner
 #' @export
+#' @examples
+#' showcaseApp()
+#' 
+#' 
 
 
 showcaseApp <- function(){
@@ -18,9 +24,7 @@ showcaseApp <- function(){
 
 
 
-library(shiny)
-library(shinythemes)
-library(imager)
+
 
 
 showcaseApp <- function(){

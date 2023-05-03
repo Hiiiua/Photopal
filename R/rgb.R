@@ -186,7 +186,7 @@ palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proc
     #         \n1: Yes, proceed no matter what \n2: No, I want to start over")
     # proceed = readline(prompt = "Enter any number : ")
     
-    else{
+    if(proceed==2){
       cli::cli_inform('Please start over.')
       stop()
     }

@@ -26,6 +26,10 @@ dataframe of pixels in rgb. If the extracted colors are sufficient for different
 it automatically generates the pallete, but if the color contrast is less
 than differentiating threshold, it will throw warning before proceeding.
 }
+\examples{
+df.rgb = image2rgb()
+palette_create(3, df.rgb)
+}
 \author{
 Hiiiua
 }

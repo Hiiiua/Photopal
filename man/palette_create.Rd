@@ -2,7 +2,7 @@
 % Please edit documentation in R/rgb.R
 \name{palette_create}
 \alias{palette_create}
-\title{A silent stop helper function}
+\title{Palette creating function}
 \usage{
 palette_create(num.color = 5, df.rgb, threshold = 25, plot = T, proceed = NA)
 }
@@ -21,18 +21,10 @@ palette_create(num.color = 5, df.rgb, threshold = 25, plot = T, proceed = NA)
 A matrix. Hex codes and their rgb values.
 }
 \description{
-This function mutes the Error when calling stop
-Palette creating function
-}
-\details{
 This function creates a palette from an image. The image need to be input in
 dataframe of pixels in rgb. If the extracted colors are sufficient for differentiating
 it automatically generates the pallete, but if the color contrast is less
 than differentiating threshold, it will throw warning before proceeding.
-}
-\examples{
-df.rgb = image2rgb()
-palette_create(5, df.rgb, 25)
 }
 \author{
 Hiiiua

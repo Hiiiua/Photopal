@@ -22,7 +22,7 @@ image2rgb <- function(loc = 'stadium.rda'){
       stadium = imager::load.image(loc)
     }
   }
-    
+  
   rgb_df = data.frame(red = as.vector(stadium[,,,1]),
                       green = as.vector(stadium[,,,2]),
                       blue = as.vector(stadium[,,,3]))
@@ -78,19 +78,19 @@ contrast <- function(c1, c2, maxColorValue = 255, plot = F){
   distance = sqrt(sum((s1-s2)**2))
   
   if(plot == T){
-  c = rbind(c1, c2)
-      graphics::image(1:nrow(c), 0, as.matrix(1:nrow(c)), 
-            col= grDevices::rgb(c[,1], c[,2], c[,3], maxColorValue = 255),
-            xlab="", ylab = "", xaxt = "n", yaxt = "n", bty = "n")
-      # axes = F)
-      # axis(1, at=seq(-1,1, length=2), labels = c('c1','c2'), las=2)
+    c = rbind(c1, c2)
+    graphics::image(1:nrow(c), 0, as.matrix(1:nrow(c)), 
+                    col= grDevices::rgb(c[,1], c[,2], c[,3], maxColorValue = 255),
+                    xlab="", ylab = "", xaxt = "n", yaxt = "n", bty = "n")
+    # axes = F)
+    # axis(1, at=seq(-1,1, length=2), labels = c('c1','c2'), las=2)
   }
   return(distance)
 }
 
 
 # https://www.researchgate.net/post/Human_eye_color_change_sensibility_in_CIELAB_units
-# To get cie delta e, we need to go with cie 1976, for now we set the threshold as 35.
+# To get cie delta e, we need to go with cie 1976, for now we set the threshold as 25.
 #' Tell if the difference is sufficient for human eye to perceive
 #' 
 #' This function returns whether the colors difference is sufficient for human eye 
@@ -117,9 +117,9 @@ is_sufficient <- function(c1, c2, maxColorValue=255, threshold=25, plot = T){
 }
 
 
-#' A silent stop helper function
-#' 
-#' This function mutes the Error when calling stop
+# A silent stop helper function
+# 
+# This function mutes the Error when calling stop
 # stop_quietly <- function() {
 #   opt <- options(show.error.messages = FALSE)
 #   on.exit(options(opt))
@@ -153,7 +153,7 @@ is_sufficient <- function(c1, c2, maxColorValue=255, threshold=25, plot = T){
 #' 
 #' @examples
 #'df.rgb = image2rgb()
-#'palette_create(5, df.rgb, 25)
+#'palette_create(3, df.rgb)
 
 palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proceed = NA){
   clust.colors <- stats::kmeans(df.rgb[,c('red', 'green', 'blue')], centers = num.color)
@@ -179,14 +179,14 @@ palette_create <- function(num.color = 5, df.rgb, threshold = 25, plot = T, proc
   if(min_dist < threshold){
     cli::cli_warn("The colors may be hard to differentiate, do you want to proceed?")
     if (is.na(proceed)){
-    proceed = utils::menu(c("Yes, proceed anyway", "No, I want to start over"))}
+      proceed = utils::menu(c("Yes, proceed anyway", "No, I want to start over"))}
     
     # options(warn = 1)
     # warning("The colors may be hard to differentiate, do you want to proceed?
     #         \n1: Yes, proceed no matter what \n2: No, I want to start over")
     # proceed = readline(prompt = "Enter any number : ")
     
-    if(proceed == 2){
+    else{
       cli::cli_inform('Please start over.')
       stop()
     }
@@ -239,12 +239,12 @@ color_blindness_simulation <- function(loc = 'stadium.rda', mode = 'red', compar
                  0.9513092, 0, 0.04866992,
                  0, 0, 1), byrow = T, ncol = 3)
   }
-
+  
   # blue-blind = triamopia
   else if(mode == 'blue'){
-  s = matrix(c(1, 0, 0,
-               0, 1, 0,
-               -0.86744736, 1.86727089, 0), byrow = T,  ncol = 3)
+    s = matrix(c(1, 0, 0,
+                 0, 1, 0,
+                 -0.86744736, 1.86727089, 0), byrow = T,  ncol = 3)
   }
   else{
     cli::cli_warn("Wrong color-blind mode")
@@ -341,7 +341,7 @@ color_blindness_palette <- function(loc = 'stadium.rda',
   df.rgb = Photopal::cimg2rgb(simulate)
   palette = Photopal::palette_create(num.color = num.color, 
                                      df.rgb = df.rgb, threshold = threshold,
-                                     plot = plot_palette, proceed = T)
+                                     plot = plot_palette)
   return(palette)
 }
 

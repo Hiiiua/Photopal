@@ -1,6 +1,6 @@
 ---
 title: "Photopal"
-output: rmarkdown::pdf_document
+output: rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{Photopal}
   %\VignetteEngine{knitr::rmarkdown}

@@ -35,8 +35,14 @@ server <- function(input, output, session){
   #Update number of colors
   observeEvent(input$update, {
     validate(need(!is.null(appData$palPhoto), ' '))
-    appData$pal <- palette_create(input$numcols, image2rgb(), threshold = 0, plot = F)
+    appData$pal <- palette_create(input$numcols, image2rgb(loc = appData$userPhotoLoc), threshold = 0, plot = F)
   })
+  
+  
+  
+  
+  
+  
   
   
   #Plot palette colors

@@ -9,7 +9,7 @@ createPalettePage <- fluidPage(
       h2('Instructions'),
       p("Welcome to the Photopal showcase app! To get started, either upload an image with a valid extension (.png or .jpeg) or use our app's default image."),
       fileInput('userPic', 'Upload file',
-                accept = c('.png', '.jpeg')),
+                accept = c('.png', '.jpeg', '.JPG')),
       actionButton('useDefault', 'Use default image'),
       h2(' '),
       numericInput('numcols', 'How many colors for palette?', value = 5, min = 1, step = 1),

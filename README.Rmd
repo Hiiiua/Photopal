@@ -54,7 +54,7 @@ To create a palette for people with blue color deficiency
 simulated_palette = Photopal::color_blindness_palette(mode = 'blue',threshold = 0, plot_images = T)
 ```
 
-## Documentation
+## Website
 
 [Photopal](https://hiiiua.github.io/Photopal/)
 
@@ -71,4 +71,8 @@ simulated_palette = Photopal::color_blindness_palette(mode = 'blue',threshold = 
 
 -   interaction: showing or saving the hex color code with pointing/clicking (maybe Shiny/plotly)
 
--   palette optimizer function: given a palette, we make it better
+-   palette optimizer function
+
+-   more on color blindness
+
+-   extending a palette

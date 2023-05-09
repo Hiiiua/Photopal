@@ -28,6 +28,7 @@ Imports:
     shinycssloaders
 Suggests: 
     covr,
+    xml2,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
